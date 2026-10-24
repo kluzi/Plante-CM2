@@ -241,7 +241,7 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
 /* --- Les tuiles des prochaines séances --- */
 .tuiles {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);     /* 6 tuiles : 3 en haut, 3 en bas */
+  grid-template-columns: repeat(4, 1fr);     /* 8 tuiles : 4 en haut, 4 en bas */
   gap: 14px;
 }
 .tuile {
@@ -1068,7 +1068,237 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
 }
 
 /* ============================================================
-   10. iPAD EN PAYSAGE : deux colonnes côte à côte
+   10. LE FILM ET LA PRÉSENTATION (séance 6)
+   ============================================================ */
+.tete-album {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.tete-album .titre-album { margin: 0; }
+
+/* Le film en accéléré */
+.film { flex-direction: column; gap: 16px; background: rgba(20, 30, 18, .94); }
+.ecran-film {
+  position: relative;
+  width: min(92vw, 900px);
+  height: min(66vh, 680px);
+  background: #000;
+  border: 4px solid #fff;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.ecran-film img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.ecran-film img.visible { opacity: 1; }
+.legende-film {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, .92);
+  border: 3px solid var(--trait);
+  border-radius: 14px;
+  font-family: "Chalkboard SE", "Marker Felt", "Comic Sans MS", ui-rounded, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.legende-film small { display: block; font-size: 1rem; color: var(--texte-doux); }
+.barre-film {
+  width: min(92vw, 900px);
+  height: 12px;
+  background: rgba(255, 255, 255, .25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.avance-film { height: 100%; width: 0; background: var(--vert-clair); transition: width .3s; }
+.commandes-film { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; }
+.vitesse-film { color: #fff; font-size: 1.6rem; display: flex; align-items: center; gap: 8px; }
+.vitesse-film input { width: 180px; accent-color: var(--jaune); }
+
+/* La préparation */
+.prepa h2 { font-size: 1.7rem; }
+.prepa h3 { font-size: 1.3rem; margin: 22px 0 12px; }
+.prepa h3 small { font-size: .95rem; color: var(--texte-doux); }
+.aide-prepa { font-size: 1.1rem; color: var(--texte-doux); margin: 6px 0 0; }
+.choix-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+}
+.choix-photo {
+  position: relative;
+  padding: 0;
+  border: 3px solid var(--trait);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  opacity: .55;
+}
+.choix-photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.choix-photo span { display: block; font-weight: 800; padding: 4px; font-size: .95rem; }
+.choix-photo.choisie { opacity: 1; outline: 5px solid var(--jaune); outline-offset: 2px; }
+.choix-photo.choisie::after {
+  content: "✓";
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  background: var(--vert);
+  color: #fff;
+  border: 2px solid var(--trait);
+  border-radius: 50%;
+  font-weight: 900;
+}
+.choix-infos { display: grid; gap: 10px; max-height: 360px; overflow-y: auto; padding-right: 4px; }
+.choix-info {
+  font: inherit;
+  text-align: left;
+  padding: 12px 14px;
+  background: #fffdf3;
+  border: 2px solid var(--trait);
+  border-radius: 14px;
+  font-size: 1.05rem;
+  color: var(--texte);
+  cursor: pointer;
+}
+.choix-info.choisie { background: var(--jaune); font-weight: 700; }
+.boutons-prepa { margin-top: 26px; justify-content: flex-start; }
+.vide-prepa { color: var(--texte-doux); margin: 0; }
+
+/* Le diaporama : une diapo en grand, à la fois */
+.diaporama {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+  background: var(--fond);
+  background-image: radial-gradient(var(--fond-fonce) 2px, transparent 2px);
+  background-size: 28px 28px;
+}
+.diaporama[hidden] { display: none; }
+.diapos { flex: 1; min-height: 0; display: flex; }
+.diapo {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1150px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: auto;
+  padding: clamp(18px, 3vw, 40px);
+  background: var(--carte);
+  border: 4px solid var(--trait);
+  border-radius: 32px;
+  box-shadow: var(--ombre);
+}
+.diapo.active { display: flex; animation: apparait .35s ease-out; }
+.diapo > h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); text-align: center; }
+.commandes-diapo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding-top: 12px;
+}
+.rond-diapo {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--trait);
+  background: var(--jaune);
+  color: var(--trait);
+  font-size: 1.6rem;
+  box-shadow: 0 4px 0 var(--trait);
+  cursor: pointer;
+}
+.rond-diapo:disabled { opacity: .3; }
+.numero-diapo { font-size: 1.3rem; font-weight: 900; min-width: 70px; text-align: center; }
+
+/* Le contenu des diapos */
+.diapo-titre { justify-content: center; align-items: center; text-align: center; }
+.diapo-titre .grand-nom { font-size: clamp(2.6rem, 8vw, 5rem); font-weight: 900; }
+.diapo-titre .dessin { max-width: min(420px, 50vh); margin: 0 auto; }
+.diapo-titre .sous-titre { font-size: clamp(1.2rem, 2.6vw, 1.7rem); font-weight: 800; margin: 0; }
+.diapo-titre .petit-texte { font-size: clamp(1rem, 2vw, 1.3rem); color: var(--texte-doux); margin: 0; }
+.diapo .fiche dl { gap: 14px; }
+.diapo .fiche dd, .diapo .fiche dt { font-size: clamp(1.05rem, 2vw, 1.35rem); }
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.chiffre {
+  text-align: center;
+  padding: 12px;
+  background: #f4fbef;
+  border: 3px solid var(--trait);
+  border-radius: 18px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.chiffre strong { display: block; font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+.diapo .courbe { max-height: 52vh; }
+.diapo .resume-courbe { text-align: center; font-size: clamp(1.1rem, 2.2vw, 1.4rem); }
+.photos-diapo {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  align-content: center;
+  padding: 16px;
+}
+.photos-diapo .polaroid { cursor: default; max-width: 300px; margin: 0 auto; }
+.infos-diapo { display: grid; gap: 16px; align-content: center; flex: 1; }
+.infos-diapo .decouverte { font-size: clamp(1.15rem, 2.4vw, 1.6rem); padding: 18px 22px; }
+.infos-diapo .decouverte .ico { font-size: 1.6em; vertical-align: middle; margin-right: 8px; }
+.mots-diapo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+  align-content: center;
+  flex: 1;
+}
+.diapo .planche { align-content: center; }
+.merci { text-align: center; font-size: clamp(1.5rem, 3.4vw, 2.3rem); font-weight: 900; margin: 10px 0 0; }
+
+/* À l'impression : toutes les diapos, une par page */
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  body { background: #fff !important; padding: 0 !important; }
+  body > *:not(.diaporama) { display: none !important; }
+  .diaporama { position: static; display: block !important; padding: 0; background: none; }
+  .commandes-diapo { display: none !important; }
+  .diapos { display: block; }
+  .diapo {
+    display: flex !important;
+    height: 186mm;
+    overflow: hidden;
+    break-after: page;
+    page-break-after: always;
+    box-shadow: none;
+    animation: none !important;
+  }
+  .diapo:last-child { break-after: auto; page-break-after: auto; }
+  .mot { background: none; border: none; padding: 0; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ============================================================
+   11. iPAD EN PAYSAGE : deux colonnes côte à côte
    ============================================================ */
 @media (min-width: 900px) and (orientation: landscape) {
   .grille {
@@ -1164,6 +1394,8 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
         <button class="tuile" data-ecran="dictionnaire"><span class="icone">📖</span><span class="texte">Dictionnaire</span></button>
         <button class="tuile" data-ecran="sos"><span class="icone">🆘</span><span class="texte">SOS plante</span></button>
         <button class="tuile" data-ecran="badges"><span class="compte-badges" id="compte-badges" hidden></span><span class="icone">🏅</span><span class="texte">Badges</span></button>
+        <button class="tuile" data-ecran="film"><span class="icone">🎬</span><span class="texte">Film</span></button>
+        <button class="tuile" data-ecran="presenter"><span class="icone">🎤</span><span class="texte">Présenter</span></button>
       </nav>
 
       <!-- La mission du jour -->
@@ -1217,7 +1449,10 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
     <!-- rempli par le code (partie G3) -->
     <article class="carte photo-du-jour" id="photo-du-jour"></article>
 
-    <h2 class="titre-album">📒 Mon album <small id="nb-photos"></small></h2>
+    <div class="tete-album">
+      <h2 class="titre-album">📒 Mon album <small id="nb-photos"></small></h2>
+      <button class="bouton discret" id="bouton-film-photos">🎬 Film en accéléré</button>
+    </div>
     <div class="album" id="album"></div>
   </section>
 
@@ -1249,6 +1484,35 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
     <article class="carte">
       <p class="bandeau-serie" id="serie-badges"></p>
       <div class="planche" id="planche-badges"></div>
+    </article>
+  </section>
+
+  <!-- ==========================================================
+       ÉCRAN 8 : PRÉSENTER MA PLANTE (on prépare, puis on lance le diaporama)
+       ========================================================== -->
+  <section id="ecran-presentation" class="ecran">
+    <header class="entete">
+      <button class="bouton discret" id="bouton-retour-presentation">← Retour</button>
+      <h1 class="arc-en-ciel titre-centre" data-texte="Présenter ma plante"></h1>
+      <span class="espace"></span>
+    </header>
+    <article class="carte prepa">
+      <h2>🎤 Prépare ta présentation</h2>
+      <p class="aide-prepa">Choisis ce que tu veux montrer à ta classe. L'appli fabrique le diaporama toute seule !</p>
+      <div class="champ">
+        <label for="champ-prenom">🙋 Ton prénom</label>
+        <input id="champ-prenom" type="text" maxlength="20" autocomplete="off" placeholder="Écris ton prénom">
+      </div>
+      <h3>📸 Tes plus belles photos <small id="compte-choix-photos"></small></h3>
+      <div class="choix-photos" id="choix-photos"></div>
+      <h3>💡 Trois découvertes <small id="compte-choix-infos"></small></h3>
+      <div class="choix-infos" id="choix-infos"></div>
+      <h3>📖 Des mots savants <small id="compte-choix-mots"></small></h3>
+      <div class="choix" id="choix-mots"></div>
+      <div class="rangee-boutons boutons-prepa">
+        <button class="bouton" id="bouton-lancer-diaporama">▶️ Lancer le diaporama</button>
+        <button class="bouton discret" id="bouton-imprimer">🖨️ Imprimer ou PDF</button>
+      </div>
     </article>
   </section>
 
@@ -1380,6 +1644,33 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
 </div>
 
 <div class="message" id="message" role="status" aria-live="polite"></div>
+
+<!-- Le film en accéléré -->
+<div class="fond-modal film" id="film" hidden>
+  <button class="rond fermer" id="bouton-fermer-film" aria-label="Fermer le film">✕</button>
+  <div class="ecran-film">
+    <img id="film-a" alt="">
+    <img id="film-b" alt="">
+    <div class="legende-film" id="legende-film"></div>
+  </div>
+  <div class="barre-film"><div class="avance-film" id="avance-film"></div></div>
+  <div class="commandes-film">
+    <button class="bouton discret" id="bouton-film-debut" aria-label="Recommencer">⏮</button>
+    <button class="bouton" id="bouton-film-lecture">⏸ Pause</button>
+    <label class="vitesse-film">🐢 <input type="range" id="vitesse-film" min="1" max="5" value="3" aria-label="Vitesse du film"> 🚀</label>
+  </div>
+</div>
+
+<!-- Le diaporama (une diapo à la fois, ou toutes quand on imprime) -->
+<div class="diaporama" id="diaporama" hidden>
+  <div class="diapos" id="diapos"></div>
+  <div class="commandes-diapo">
+    <button class="rond-diapo" id="diapo-avant" aria-label="Diapo d'avant">◀</button>
+    <span class="numero-diapo" id="numero-diapo"></span>
+    <button class="rond-diapo" id="diapo-apres" aria-label="Diapo d'après">▶</button>
+    <button class="bouton discret" id="bouton-quitter-diaporama">✕ Quitter</button>
+  </div>
+</div>
 
 <!-- Fenêtre : arroser ma plante -->
 <div class="fond-modal" id="modal-arrosage" hidden>
@@ -2271,14 +2562,14 @@ async function enregistrerJournal() {
 // --- H3. La courbe de croissance ---
 // On la dessine en SVG, comme une tige verte sur une feuille de cahier,
 // avec une petite feuille sur chaque mesure.
-function dessinerCourbe() {
+function dessinerCourbe(idSvg = "courbe", idResume = "resume-courbe") {
   const mesures = donnees.journal
     .filter(e => e.taille !== null && e.taille !== undefined)
     .map(e => ({ jour: ecartEnJours(donnees.plante.dateDepart, e.date), taille: e.taille }))
     .sort((a, b) => a.jour - b.jour);
 
   // la petite phrase au-dessus
-  const resume = document.getElementById("resume-courbe");
+  const resume = document.getElementById(idResume);
   if (!mesures.length) {
     resume.textContent = "Mesure ta plante pour voir sa courbe pousser ! 📏";
   } else if (mesures.length === 1) {
@@ -2349,7 +2640,7 @@ function dessinerCourbe() {
     svg += `<text x="${Math.min(dx, L - 50)}" y="${dy - 16}" text-anchor="middle" font-size="16" font-weight="900" fill="${TRAIT}">${enFrancais(mesures[mesures.length - 1].taille)} cm</text>`;
   }
 
-  document.getElementById("courbe").innerHTML = svg;
+  document.getElementById(idSvg).innerHTML = svg;
 }
 
 
@@ -3035,7 +3326,283 @@ function afficherBadges() {
 
 
 /* ============================================================
-   K. LES BOUTONS
+   K. LE FILM ET LA PRÉSENTATION (séance 6)
+   ============================================================ */
+
+// --- K1. Le film en accéléré ---
+// Les photos défilent l'une après l'autre, en fondu.
+const VITESSES_FILM = [0, 1500, 950, 600, 350, 180];   // temps par photo (ms), de 🐢 (1) à 🚀 (5)
+let filmPhotos = [];
+let filmIndex = 0;
+let filmEnLecture = false;
+let filmMinuteur = null;
+let filmCouche = 0;          // on alterne entre deux images pour faire un fondu
+
+async function ouvrirFilm() {
+  try {
+    filmPhotos = (await lirePhotos()).filter(p => p.grande instanceof Blob);
+  } catch (e) {
+    filmPhotos = [];
+  }
+  if (filmPhotos.length < 2) {
+    montrerMessage("Il faut au moins 2 photos pour faire un film 📸");
+    return;
+  }
+  filmPhotos.forEach(p => { new Image().src = adresseDe(p.grande); });   // on prépare les images à l'avance
+  document.getElementById("film").hidden = false;
+  filmIndex = 0;
+  montrerImageFilm();
+  lancerFilm();
+}
+
+// La taille connue ce jour-là (la mesure du jour, ou la dernière avant)
+function tailleCeJourLa(date) {
+  const mesures = donnees.journal.filter(e => e.date <= date && e.taille !== null && e.taille !== undefined);
+  return mesures.length ? mesures[mesures.length - 1].taille : null;
+}
+
+function montrerImageFilm() {
+  const photo = filmPhotos[filmIndex];
+  const images = [document.getElementById("film-a"), document.getElementById("film-b")];
+  filmCouche = 1 - filmCouche;
+  const duree = Math.min(0.4, VITESSES_FILM[vitesseFilm()] / 2000);
+  images.forEach(img => { img.style.transitionDuration = duree + "s"; });
+  images[filmCouche].src = adresseDe(photo.grande);
+  images[filmCouche].classList.add("visible");
+  images[1 - filmCouche].classList.remove("visible");
+
+  const taille = tailleCeJourLa(photo.date);
+  const fin = filmIndex === filmPhotos.length - 1;
+  document.getElementById("legende-film").innerHTML =
+    `${nomDuJour(photo.date)}${taille !== null ? ` · 📏 ${enFrancais(taille)} cm` : ""}<small>${dateEnFrancais(photo.date)}${fin ? " · Fin ! 🌱" : ""}</small>`;
+  document.getElementById("avance-film").style.width = (filmIndex / (filmPhotos.length - 1)) * 100 + "%";
+}
+
+const vitesseFilm = () => Number(document.getElementById("vitesse-film").value);
+
+function imageSuivante() {
+  if (filmIndex >= filmPhotos.length - 1) { arreterFilm(true); return; }
+  filmIndex++;
+  montrerImageFilm();
+  filmMinuteur = setTimeout(imageSuivante, VITESSES_FILM[vitesseFilm()]);
+}
+
+function lancerFilm() {
+  clearTimeout(filmMinuteur);
+  if (filmIndex >= filmPhotos.length - 1) { filmIndex = 0; montrerImageFilm(); }   // à la fin : on recommence
+  filmEnLecture = true;
+  document.getElementById("bouton-film-lecture").textContent = "⏸ Pause";
+  filmMinuteur = setTimeout(imageSuivante, VITESSES_FILM[vitesseFilm()]);
+}
+
+function arreterFilm(fini) {
+  clearTimeout(filmMinuteur);
+  filmEnLecture = false;
+  document.getElementById("bouton-film-lecture").textContent = fini ? "🔁 Revoir" : "▶️ Lecture";
+}
+
+function fermerFilm() {
+  arreterFilm();
+  document.getElementById("film").hidden = true;
+}
+
+
+// --- K2. Préparer la présentation ---
+// Les choix sont gardés dans donnees.presentation, pour la prochaine fois.
+const MAX_PHOTOS_DIAPO = 4, MAX_INFOS_DIAPO = 3, MAX_MOTS_DIAPO = 6;
+const MOTS_CONSEILLES = ["cotyledon", "germination", "photosynthese", "vrille", "pollinisation", "racine"];
+let photosPrepa = [];
+
+// Les numéros des infos « Le saviez-vous ? » déjà découvertes
+function infosDecouvertes() {
+  const nombre = Math.min(INFOS.length, Math.max(0, ageEnJours()) + 1);
+  return Array.from({ length: nombre }, (_, i) => i);
+}
+
+async function afficherPresentation() {
+  try {
+    photosPrepa = (await lirePhotos()).filter(p => p.grande instanceof Blob && p.miniature instanceof Blob);
+  } catch (e) {
+    photosPrepa = [];
+  }
+  const decouvertes = infosDecouvertes();
+
+  // la première fois, l'appli propose un choix tout prêt
+  if (!donnees.presentation) {
+    const n = photosPrepa.length;
+    const indices = n <= MAX_PHOTOS_DIAPO
+      ? photosPrepa.map((_, i) => i)
+      : Array.from({ length: MAX_PHOTOS_DIAPO }, (_, i) => Math.round(i * (n - 1) / (MAX_PHOTOS_DIAPO - 1)));
+    donnees.presentation = {
+      prenom: "",
+      photos: indices.map(i => photosPrepa[i].date),
+      infos: decouvertes.slice(-MAX_INFOS_DIAPO).reverse(),
+      mots: MOTS_CONSEILLES.slice()
+    };
+  }
+  const choix = donnees.presentation;
+  // on oublie les photos qui n'existent plus
+  choix.photos = choix.photos.filter(date => photosPrepa.some(p => p.date === date));
+
+  document.getElementById("champ-prenom").value = choix.prenom;
+  remplirChoixPresentation();
+  montrerEcran("ecran-presentation");
+}
+
+function remplirChoixPresentation() {
+  const choix = donnees.presentation;
+
+  document.getElementById("choix-photos").innerHTML = photosPrepa.length
+    ? photosPrepa.map(p => `
+        <button class="choix-photo ${choix.photos.includes(p.date) ? "choisie" : ""}" data-date="${p.date}">
+          <img src="${adresseDe(p.miniature)}" alt="Photo du ${dateEnFrancais(p.date)}">
+          <span>${nomDuJour(p.date)}</span>
+        </button>`).join("")
+    : `<p class="vide-prepa">Pas encore de photo : prends-en dans l'écran Photos ! 📸</p>`;
+
+  document.getElementById("choix-infos").innerHTML = infosDecouvertes().slice().reverse().map(n => `
+    <button class="choix-info ${choix.infos.includes(n) ? "choisie" : ""}" data-info="${n}">
+      ${INFOS[n].ico} ${echapper(INFOS[n].texte)}
+    </button>`).join("");
+
+  document.getElementById("choix-mots").innerHTML = GLOSSAIRE.slice()
+    .sort((a, b) => a.mot.localeCompare(b.mot, "fr"))
+    .map(m => `<button class="pastille ${choix.mots.includes(m.cle) ? "choisie" : ""}" data-mot-choisi="${m.cle}">${m.mot}</button>`)
+    .join("");
+
+  document.getElementById("compte-choix-photos").textContent = `(${choix.photos.length} sur ${MAX_PHOTOS_DIAPO} au maximum)`;
+  document.getElementById("compte-choix-infos").textContent = `(${choix.infos.length} sur ${MAX_INFOS_DIAPO})`;
+  document.getElementById("compte-choix-mots").textContent = `(${choix.mots.length} sur ${MAX_MOTS_DIAPO} au maximum)`;
+}
+
+// Choisir ou enlever quelque chose, sans dépasser le maximum
+function basculerChoix(liste, valeur, maximum) {
+  const ici = liste.indexOf(valeur);
+  if (ici !== -1) { liste.splice(ici, 1); return; }
+  if (liste.length >= maximum) { montrerMessage(`Pas plus de ${maximum} ! Enlèves-en un d'abord 🙂`); return; }
+  liste.push(valeur);
+}
+
+
+// --- K3. Le diaporama ---
+let diapoActive = 0;
+
+function lettresArcEnCiel(texte) {
+  return [...texte].map(lettre => lettre === " " ? " " : `<span>${echapper(lettre)}</span>`).join("");
+}
+
+function construireDiaporama() {
+  const choix = donnees.presentation;
+  choix.prenom = document.getElementById("champ-prenom").value.trim();
+  enregistrer();
+  const jours = Math.max(0, ageEnJours());
+  const photosChoisies = photosPrepa.filter(p => choix.photos.includes(p.date));
+  const arrosages = donnees.journal.filter(e => e.arrosage === "oui").length;
+  const feuilles = derniereValeur("feuilles", "9999-12-31");
+  const taille = tailleCeJourLa(aujourdhuiTexte());
+
+  const diapos = [
+    // 1. Le titre
+    `<section class="diapo diapo-titre">
+       <div class="grand-nom arc-en-ciel">${lettresArcEnCiel(donnees.plante.nom)}</div>
+       <svg class="dessin" viewBox="0 110 805 896" id="dessin-diapo" role="img" aria-label="Ma plante"></svg>
+       <p class="sous-titre">${choix.prenom ? `Présentée par ${echapper(choix.prenom)} 🌱` : "Ma courge 🌱"}</p>
+       <p class="petit-texte">Plantée le ${dateEnFrancais(donnees.plante.dateDepart)} · elle a ${jours} jour${jours > 1 ? "s" : ""}</p>
+     </section>`,
+
+    // 2. La carte d'identité
+    `<section class="diapo">
+       <h2>🪪 Sa carte d'identité</h2>
+       <div class="fiche"><dl>${FICHE.map(info => `
+         <div class="ligne"><span class="ico" aria-hidden="true">${info.ico}</span>
+         <div><dt>${info.titre}</dt><dd>${surligner(info.texte)}</dd></div></div>`).join("")}</dl></div>
+     </section>`,
+
+    // 3. La croissance
+    `<section class="diapo">
+       <h2>📈 Comment elle a grandi</h2>
+       <div class="chiffres">
+         <div class="chiffre"><strong>${jours}</strong>jours</div>
+         <div class="chiffre"><strong>${taille !== null ? enFrancais(taille) + " cm" : "?"}</strong>de haut</div>
+         <div class="chiffre"><strong>${feuilles !== null ? feuilles : "?"}</strong>feuilles</div>
+         <div class="chiffre"><strong>${arrosages}</strong>arrosages</div>
+       </div>
+       <p class="resume-courbe" id="resume-diapo"></p>
+       <svg class="courbe" id="courbe-diapo" viewBox="0 0 600 340" role="img" aria-label="La courbe de croissance"></svg>
+     </section>`,
+
+    // 4. Les photos
+    `<section class="diapo">
+       <h2>📸 Mes photos</h2>
+       <div class="photos-diapo">${photosChoisies.length
+         ? photosChoisies.map((p, i) => `
+             <figure class="polaroid" style="--penche:${PENCHES[i % PENCHES.length]}deg">
+               <img src="${adresseDe(p.grande)}" alt="Ma plante le ${dateEnFrancais(p.date)}">
+               <figcaption class="legende">${nomDuJour(p.date)}<small>${dateCourte(p.date)}</small></figcaption>
+             </figure>`).join("")
+         : `<p class="merci">Pas encore de photo 📸</p>`}</div>
+     </section>`,
+
+    // 5. Les découvertes
+    `<section class="diapo">
+       <h2>💡 Ce que j'ai découvert</h2>
+       <div class="infos-diapo">${choix.infos.map(n => `
+         <p class="decouverte"><span class="ico" aria-hidden="true">${INFOS[n].ico}</span>${surligner(INFOS[n].texte)}</p>`).join("")}</div>
+     </section>`,
+
+    // 6. Les mots savants
+    `<section class="diapo">
+       <h2>📖 Les mots que j'ai appris</h2>
+       <div class="mots-diapo">${choix.mots.map(cle => motParCle(cle)).filter(Boolean).map(m => `
+         <article class="entree-mot">${dessinDuMot(m.cle)}
+           <div><h3>${m.mot}</h3><p>${surligner(m.definition, m.cle)}</p></div></article>`).join("")}</div>
+     </section>`,
+
+    // 7. Les badges, et merci !
+    `<section class="diapo">
+       <h2>🏅 Mes badges</h2>
+       <div class="planche">${BADGES.filter(b => donnees.badges.includes(b.cle)).map(b => `
+         <div class="badge">${rondBadge(b, BADGES.indexOf(b))}<h3>${b.nom}</h3></div>`).join("") || `<p class="merci">Bientôt des badges ! 🏅</p>`}</div>
+       <p class="merci">Merci de votre attention ! 🌱 Avez-vous des questions ?</p>
+     </section>`
+  ];
+
+  document.getElementById("diapos").innerHTML = diapos.join("");
+  dessiner("dessin-diapo", jours);
+  dessinerCourbe("courbe-diapo", "resume-diapo");
+}
+
+function lancerDiaporama() {
+  construireDiaporama();
+  document.getElementById("diaporama").hidden = false;
+  montrerDiapo(0);
+}
+
+function montrerDiapo(numero) {
+  const diapos = document.querySelectorAll("#diapos .diapo");
+  diapoActive = Math.max(0, Math.min(diapos.length - 1, numero));
+  diapos.forEach((d, i) => d.classList.toggle("active", i === diapoActive));
+  document.getElementById("numero-diapo").textContent = `${diapoActive + 1} / ${diapos.length}`;
+  document.getElementById("diapo-avant").disabled = diapoActive === 0;
+  document.getElementById("diapo-apres").disabled = diapoActive === diapos.length - 1;
+}
+
+function quitterDiaporama() {
+  document.getElementById("diaporama").hidden = true;
+  cacherBulle();
+}
+
+// Imprimer : on construit toutes les diapos, et l'iPad propose « Imprimer » ou « Enregistrer en PDF »
+function imprimerPresentation() {
+  construireDiaporama();
+  document.getElementById("diaporama").hidden = false;
+  montrerDiapo(0);
+  setTimeout(() => window.print(), 300);    // on laisse le temps aux images de s'afficher
+}
+
+
+/* ============================================================
+   L. LES BOUTONS
    ============================================================ */
 document.getElementById("formulaire-plante").addEventListener("submit", evenement => {
   evenement.preventDefault();
@@ -3065,8 +3632,65 @@ document.querySelectorAll(".tuile").forEach(tuile => {
     else if (tuile.dataset.ecran === "arroser") ouvrirArrosage();
     else if (tuile.dataset.ecran === "sos") afficherSOS();
     else if (tuile.dataset.ecran === "badges") afficherBadges();
+    else if (tuile.dataset.ecran === "film") ouvrirFilm();
+    else if (tuile.dataset.ecran === "presenter") afficherPresentation();
     else montrerMessage(`Ça arrive à la séance ${tuile.dataset.seance} ! 🛠️`);
   });
+});
+
+// Le film en accéléré
+document.getElementById("bouton-film-photos").addEventListener("click", ouvrirFilm);
+document.getElementById("bouton-fermer-film").addEventListener("click", fermerFilm);
+document.getElementById("bouton-film-debut").addEventListener("click", () => {
+  filmIndex = 0;
+  montrerImageFilm();
+  lancerFilm();
+});
+document.getElementById("bouton-film-lecture").addEventListener("click", () => {
+  if (filmEnLecture) arreterFilm(); else lancerFilm();
+});
+
+// Préparer la présentation
+document.getElementById("bouton-retour-presentation").addEventListener("click", afficherAccueil);
+document.getElementById("champ-prenom").addEventListener("input", evenement => {
+  donnees.presentation.prenom = evenement.target.value.trim();
+  enregistrer();
+});
+document.getElementById("ecran-presentation").addEventListener("click", evenement => {
+  const choix = donnees.presentation;
+  const photo = evenement.target.closest("[data-date]");
+  const info = evenement.target.closest("[data-info]");
+  const mot = evenement.target.closest("[data-mot-choisi]");
+  if (photo) basculerChoix(choix.photos, photo.dataset.date, MAX_PHOTOS_DIAPO);
+  else if (info) basculerChoix(choix.infos, Number(info.dataset.info), MAX_INFOS_DIAPO);
+  else if (mot) basculerChoix(choix.mots, mot.dataset.motChoisi, MAX_MOTS_DIAPO);
+  else return;
+  // les photos restent dans l'ordre des jours
+  choix.photos.sort();
+  enregistrer();
+  remplirChoixPresentation();
+});
+document.getElementById("bouton-lancer-diaporama").addEventListener("click", lancerDiaporama);
+document.getElementById("bouton-imprimer").addEventListener("click", imprimerPresentation);
+
+// Le diaporama : boutons, doigt qui glisse, flèches du clavier
+document.getElementById("diapo-avant").addEventListener("click", () => montrerDiapo(diapoActive - 1));
+document.getElementById("diapo-apres").addEventListener("click", () => montrerDiapo(diapoActive + 1));
+document.getElementById("bouton-quitter-diaporama").addEventListener("click", quitterDiaporama);
+let departDiapo = null;
+const diaporama = document.getElementById("diaporama");
+diaporama.addEventListener("touchstart", e => { departDiapo = e.touches[0].clientX; }, { passive: true });
+diaporama.addEventListener("touchend", e => {
+  if (departDiapo === null) return;
+  const ecart = e.changedTouches[0].clientX - departDiapo;
+  if (Math.abs(ecart) > 60) montrerDiapo(diapoActive + (ecart < 0 ? 1 : -1));
+  departDiapo = null;
+});
+document.addEventListener("keydown", e => {
+  if (diaporama.hidden) return;
+  if (e.key === "ArrowRight" || e.key === " ") montrerDiapo(diapoActive + 1);
+  if (e.key === "ArrowLeft") montrerDiapo(diapoActive - 1);
+  if (e.key === "Escape") quitterDiaporama();
 });
 
 // L'arrosage (la tuile, ou la bulle de la plante)
@@ -3238,7 +3862,7 @@ function montrerMessage(texte) {
 
 
 /* ============================================================
-   L. LE DÉMARRAGE
+   M. LE DÉMARRAGE
    ============================================================ */
 
 // Les titres arc-en-ciel : une couleur par lettre

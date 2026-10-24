@@ -241,7 +241,7 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
 /* --- Les tuiles des prochaines séances --- */
 .tuiles {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);     /* 8 tuiles : 4 en haut, 4 en bas */
+  grid-template-columns: repeat(5, 1fr);     /* 10 tuiles : 5 en haut, 5 en bas */
   gap: 14px;
 }
 .tuile {
@@ -1298,7 +1298,144 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
 }
 
 /* ============================================================
-   11. iPAD EN PAYSAGE : deux colonnes côte à côte
+   11. CHERCHEUSE, QUIZ ET SAUVEGARDE (séance 7)
+   ============================================================ */
+.boutons-entete { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+.tuile .texte { font-size: 1rem; }
+
+/* Le cahier d'expérience : des lignes comme un cahier de sciences */
+.cahier {
+  margin-bottom: 20px;
+  background-color: #fffef8;
+  background-image: repeating-linear-gradient(transparent 0 33px, #d6e6f5 33px 35px);
+}
+.cahier h2 { font-size: 1.7rem; margin-bottom: 6px; }
+.etape-cahier { padding: 14px 0 6px; border-top: 2px dashed var(--fond-fonce); }
+.etape-cahier h3 { font-size: 1.35rem; display: flex; align-items: center; gap: 10px; }
+.etape-cahier .num {
+  display: inline-grid;
+  place-items: center;
+  width: 36px; height: 36px;
+  background: var(--turquoise);
+  color: #fff;
+  border: 2px solid var(--trait);
+  border-radius: 50%;
+  font-weight: 900;
+}
+.aide-etape { margin: 4px 0 10px; color: var(--texte-doux); font-size: 1rem; }
+.cahier textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 1.15rem;
+  padding: 12px 14px;
+  border: 3px solid var(--trait);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--texte);
+  resize: vertical;
+  margin-bottom: 8px;
+}
+.idees { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.idee {
+  font: inherit;
+  font-size: .95rem;
+  padding: 6px 12px;
+  border: 2px dashed var(--turquoise);
+  border-radius: 999px;
+  background: #effaf8;
+  color: var(--texte);
+  cursor: pointer;
+}
+.observations { display: grid; gap: 8px; margin-bottom: 10px; }
+.observation {
+  margin: 0;
+  padding: 10px 14px;
+  background: #fff8e1;
+  border: 2px solid var(--trait);
+  border-radius: 14px;
+  font-size: 1.05rem;
+}
+.observation strong { color: var(--orange); margin-right: 6px; }
+.boutons-cahier { justify-content: flex-start; margin-top: 16px; }
+.liste-experiences { display: grid; gap: 10px; margin: 14px 0 18px; }
+.ligne-experience {
+  font: inherit;
+  text-align: left;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  background: #effaf8;
+  border: 2px solid var(--trait);
+  border-radius: 16px;
+  color: var(--texte);
+  cursor: pointer;
+}
+.ligne-experience strong { font-size: 1.15rem; }
+.ligne-experience span { color: var(--texte-doux); font-size: .95rem; }
+
+/* Le quiz */
+.zone-quiz { max-width: 760px; margin: 0 auto; text-align: center; }
+.zone-quiz h2 { font-size: 1.8rem; }
+.grand-emoji { font-size: 72px; line-height: 1.1; }
+.progression-quiz { font-weight: 800; color: var(--texte-doux); margin: 0 0 6px; }
+.points-quiz { display: flex; justify-content: center; gap: 6px; margin-bottom: 14px; }
+.points-quiz span { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--trait); background: #fff; }
+.points-quiz .juste { background: var(--vert); }
+.points-quiz .faux { background: var(--rouge); }
+.points-quiz .ici { background: var(--jaune); }
+.question-quiz { font-size: clamp(1.4rem, 3.4vw, 1.9rem); font-weight: 900; margin: 6px 0 20px; line-height: 1.3; }
+.reponses-quiz { display: grid; gap: 12px; }
+.reponse-quiz {
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 800;
+  min-height: 64px;
+  padding: 12px 18px;
+  border: 3px solid var(--trait);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--texte);
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--trait);
+}
+.reponse-quiz:disabled { cursor: default; }
+.reponse-quiz.juste { background: #bbf7d0; }
+.reponse-quiz.faux { background: #fecaca; }
+.reponse-quiz.pas-choisie { opacity: .5; }
+.explication-quiz {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  background: #fff8e1;
+  border: 2px solid var(--trait);
+  border-radius: 16px;
+  font-size: 1.15rem;
+  line-height: 1.45;
+  text-align: left;
+}
+.zone-quiz .bouton { margin-top: 18px; }
+.score-quiz { font-size: 3rem; font-weight: 900; margin: 6px 0; }
+.etoiles-quiz { font-size: 2.6rem; letter-spacing: 6px; }
+
+/* La sauvegarde */
+.texte-sauvegarde { font-size: 1.15rem; margin: 6px 0 14px; }
+.confirmer-import {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff1dc;
+  border: 3px solid var(--trait);
+  border-radius: 16px;
+  display: grid;
+  gap: 12px;
+}
+.confirmer-import[hidden] { display: none; }
+.confirmer-import p { margin: 0; font-size: 1.1rem; }
+
+@media (max-width: 760px) {
+  .tuiles { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ============================================================
+   12. iPAD EN PAYSAGE : deux colonnes côte à côte
    ============================================================ */
 @media (min-width: 900px) and (orientation: landscape) {
   .grille {
@@ -1366,7 +1503,10 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
   <section id="ecran-accueil" class="ecran">
     <header class="entete">
       <h1 class="arc-en-ciel" data-texte="Mon Journal de Plante"></h1>
-      <button class="bouton discret" id="bouton-modifier" aria-label="Modifier le nom ou la date">✏️ Modifier</button>
+      <div class="boutons-entete">
+        <button class="bouton discret" id="bouton-sauvegarde">💾 Sauvegarde</button>
+        <button class="bouton discret" id="bouton-modifier" aria-label="Modifier le nom ou la date">✏️ Modifier</button>
+      </div>
     </header>
 
     <div class="grille">
@@ -1396,6 +1536,8 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
         <button class="tuile" data-ecran="badges"><span class="compte-badges" id="compte-badges" hidden></span><span class="icone">🏅</span><span class="texte">Badges</span></button>
         <button class="tuile" data-ecran="film"><span class="icone">🎬</span><span class="texte">Film</span></button>
         <button class="tuile" data-ecran="presenter"><span class="icone">🎤</span><span class="texte">Présenter</span></button>
+        <button class="tuile" data-ecran="chercheuse"><span class="icone">🔬</span><span class="texte">Chercheuse</span></button>
+        <button class="tuile" data-ecran="quiz"><span class="icone">🧠</span><span class="texte">Quiz</span></button>
       </nav>
 
       <!-- La mission du jour -->
@@ -1514,6 +1656,115 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
         <button class="bouton discret" id="bouton-imprimer">🖨️ Imprimer ou PDF</button>
       </div>
     </article>
+  </section>
+
+  <!-- ==========================================================
+       ÉCRAN 9 : MODE CHERCHEUSE (le cahier d'expériences)
+       ========================================================== -->
+  <section id="ecran-chercheuse" class="ecran">
+    <header class="entete">
+      <button class="bouton discret" id="bouton-retour-chercheuse">← Retour</button>
+      <h1 class="arc-en-ciel titre-centre" data-texte="Mode chercheuse"></h1>
+      <span class="espace"></span>
+    </header>
+
+    <!-- Le cahier d'une expérience (caché tant qu'on n'en a pas ouvert une) -->
+    <article class="carte cahier" id="cahier" hidden>
+      <h2 id="titre-cahier">🔬 Mon expérience</h2>
+
+      <section class="etape-cahier">
+        <h3><span class="num">1</span> ❓ Ma question</h3>
+        <p class="aide-etape">Qu'est-ce que je veux savoir sur ma plante ?</p>
+        <div class="idees" id="idees-questions"></div>
+        <textarea id="exp-question" rows="2" placeholder="Par exemple : ma plante pousse-t-elle plus vite près de la fenêtre ?"></textarea>
+      </section>
+
+      <section class="etape-cahier">
+        <h3><span class="num">2</span> 💡 Mon hypothèse</h3>
+        <p class="aide-etape">Ce que je pense qu'il va se passer, avant d'essayer.</p>
+        <textarea id="exp-hypothese" rows="2" placeholder="Je pense que…"></textarea>
+      </section>
+
+      <section class="etape-cahier">
+        <h3><span class="num">3</span> 🧪 Mon expérience</h3>
+        <p class="aide-etape">Ce que je fais pour vérifier : quoi, combien de jours, qu'est-ce que je mesure ?</p>
+        <textarea id="exp-protocole" rows="3" placeholder="Pendant 7 jours, je mets mon pot… et je mesure ma plante chaque jour."></textarea>
+      </section>
+
+      <section class="etape-cahier">
+        <h3><span class="num">4</span> 👀 Mes observations</h3>
+        <p class="aide-etape">Chaque jour, j'écris ce que je vois (et je peux mesurer dans mon journal).</p>
+        <div class="observations" id="exp-observations"></div>
+        <textarea id="exp-nouvelle-observation" rows="2" placeholder="Aujourd'hui, j'ai remarqué que…"></textarea>
+        <button class="bouton discret" id="bouton-ajouter-observation">➕ Ajouter l'observation du jour</button>
+      </section>
+
+      <section class="etape-cahier">
+        <h3><span class="num">5</span> ✅ Ma conclusion</h3>
+        <div class="choix" id="exp-resultat">
+          <button class="pastille" data-valeur="vraie">✅ Mon hypothèse était vraie</button>
+          <button class="pastille" data-valeur="fausse">❌ Elle était fausse</button>
+          <button class="pastille" data-valeur="incertain">🤔 Je ne sais pas encore</button>
+        </div>
+        <textarea id="exp-conclusion" rows="2" placeholder="J'ai découvert que…"></textarea>
+      </section>
+
+      <div class="rangee-boutons boutons-cahier">
+        <button class="bouton" id="bouton-enregistrer-experience">Enregistrer ✅</button>
+        <button class="bouton discret" id="bouton-fermer-experience">Fermer</button>
+        <button class="bouton discret supprimer" id="bouton-supprimer-experience">🗑️ Supprimer</button>
+      </div>
+    </article>
+
+    <!-- La liste de mes expériences -->
+    <article class="carte" id="carte-experiences">
+      <h2>📚 Mes expériences</h2>
+      <p class="aide-etape">Une vraie chercheuse se pose une question, imagine une réponse… puis vérifie !</p>
+      <div class="liste-experiences" id="liste-experiences"></div>
+      <button class="bouton" id="bouton-nouvelle-experience">➕ Nouvelle expérience</button>
+    </article>
+  </section>
+
+  <!-- ==========================================================
+       ÉCRAN 10 : LE QUIZ (10 questions)
+       ========================================================== -->
+  <section id="ecran-quiz" class="ecran">
+    <header class="entete">
+      <button class="bouton discret" id="bouton-retour-quiz">← Retour</button>
+      <h1 class="arc-en-ciel titre-centre" data-texte="Le grand quiz"></h1>
+      <span class="espace"></span>
+    </header>
+    <!-- rempli par le code (partie L2) -->
+    <article class="carte zone-quiz" id="zone-quiz"></article>
+  </section>
+
+  <!-- ==========================================================
+       ÉCRAN 11 : SAUVEGARDE (créer un fichier, ou le récupérer)
+       ========================================================== -->
+  <section id="ecran-sauvegarde" class="ecran">
+    <header class="entete">
+      <button class="bouton discret" id="bouton-retour-sauvegarde">← Retour</button>
+      <h1 class="arc-en-ciel titre-centre" data-texte="Sauvegarde"></h1>
+      <span class="espace"></span>
+    </header>
+    <div class="ecran-dico">
+      <article class="carte">
+        <h2>💾 Sauvegarder</h2>
+        <p class="texte-sauvegarde" id="resume-sauvegarde"></p>
+        <p class="texte-sauvegarde" id="derniere-sauvegarde"></p>
+        <button class="bouton" id="bouton-exporter">💾 Créer mon fichier de sauvegarde</button>
+        <p class="astuce">💡 Range le fichier dans « Fichiers » sur l'iPad, ou envoie-le à un adulte.
+          Comme ça, tu ne perdras jamais ton journal, même si l'iPad efface l'appli.</p>
+      </article>
+      <article class="carte">
+        <h2>📂 Récupérer une sauvegarde</h2>
+        <p class="texte-sauvegarde">Tu as changé d'iPad, ou tout a été effacé ? Choisis ton fichier de sauvegarde.</p>
+        <button class="bouton discret" id="bouton-importer">📂 Choisir un fichier</button>
+        <input type="file" id="entree-sauvegarde" accept=".json,application/json" hidden>
+        <div class="confirmer-import" id="confirmer-import" hidden></div>
+        <p class="erreur" id="erreur-import"></p>
+      </article>
+    </div>
   </section>
 
   <!-- ==========================================================
@@ -1763,6 +2014,8 @@ function donneesVides() {
     journal: [],   // séance 3 : une ligne par jour
     badges: [],    // séance 5 : les clés des badges gagnés
     missions: {},  // séance 5 : { "2026-10-24": numéro de la mission réussie }
+    experiences: [],                     // séance 7 : le cahier de la chercheuse
+    quiz: { meilleur: 0, parties: 0 },   // séance 7 : le meilleur score au quiz
     reglages: {}
   };
 }
@@ -3260,7 +3513,11 @@ const BADGES = [
   { cle: "voyageuse", ico: "🏫", nom: "Plante voyageuse", aide: "Ta plante est allée à l'école.", couleur: "#ddd6fe",
     gagne: () => donnees.journal.some(e => e.lieu === "ecole") },
   { cle: "un-mois", ico: "🎂", nom: "1 mois", aide: "Ta plante doit avoir 30 jours.", couleur: "#fecaca",
-    gagne: () => ageEnJours() >= 30 }
+    gagne: () => ageEnJours() >= 30 },
+  { cle: "chercheuse", ico: "🔬", nom: "Chercheuse", aide: "Termine une expérience avec sa conclusion.", couleur: "#99f6e4",
+    gagne: () => donnees.experiences.some(x => x.resultat) },
+  { cle: "quiz", ico: "🧠", nom: "Experte des courges", aide: "Fais au moins 8 sur 10 au quiz.", couleur: "#c7d2fe",
+    gagne: () => donnees.quiz.meilleur >= 8 }
 ];
 const PENCHES_BADGES = [-6, 4, -2, 7, -4, 3];
 
@@ -3602,7 +3859,410 @@ function imprimerPresentation() {
 
 
 /* ============================================================
-   L. LES BOUTONS
+   L. CHERCHEUSE, QUIZ ET SAUVEGARDE (séance 7)
+   ============================================================ */
+
+// --- L1. Le cahier d'expérience ---
+// Une expérience : { id, question, hypothese, protocole,
+//   observations: [{ date, texte }], resultat ("vraie"/"fausse"/"incertain"), conclusion, creeeLe }
+const IDEES_QUESTIONS = [
+  "Pousse-t-elle plus vite près de la fenêtre ?",
+  "Ses feuilles se tournent-elles vers la lumière ?",
+  "Pousse-t-elle plus vite quand il fait chaud ?",
+  "Combien de temps faut-il pour qu'une nouvelle feuille sorte ?",
+  "Que se passe-t-il si je tourne le pot chaque jour ?",
+  "Boit-elle plus quand elle est au soleil ?"
+];
+let experienceOuverte = null;    // l'expérience affichée dans le cahier
+let resultatChoisi = null;
+
+const RESULTATS = { vraie: "✅ Hypothèse vraie", fausse: "❌ Hypothèse fausse", incertain: "🤔 Pas encore sûre" };
+
+function afficherChercheuse() {
+  document.getElementById("cahier").hidden = true;
+  remplirListeExperiences();
+  montrerEcran("ecran-chercheuse");
+}
+
+function remplirListeExperiences() {
+  const liste = document.getElementById("liste-experiences");
+  liste.innerHTML = donnees.experiences.length
+    ? donnees.experiences.slice().reverse().map(x => `
+        <button class="ligne-experience" data-experience="${x.id}">
+          <strong>🔬 ${echapper(x.question || "Expérience sans question")}</strong>
+          <span>Commencée le ${dateEnFrancais(x.creeeLe)} · ${x.observations.length} observation${x.observations.length > 1 ? "s" : ""}
+            · ${x.resultat ? RESULTATS[x.resultat] : "🧪 en cours"}</span>
+        </button>`).join("")
+    : `<p class="aide-etape">Pas encore d'expérience. Lance-toi ! 🧪</p>`;
+}
+
+function ouvrirExperience(id) {
+  experienceOuverte = id
+    ? donnees.experiences.find(x => x.id === id)
+    : { id: String(Date.now()), question: "", hypothese: "", protocole: "", observations: [], resultat: null, conclusion: "", creeeLe: aujourdhuiTexte() };
+  const x = experienceOuverte;
+  document.getElementById("titre-cahier").textContent = id ? "🔬 Mon expérience" : "🔬 Ma nouvelle expérience";
+  document.getElementById("idees-questions").innerHTML = IDEES_QUESTIONS.map(q => `<button class="idee">${q}</button>`).join("");
+  document.getElementById("exp-question").value = x.question;
+  document.getElementById("exp-hypothese").value = x.hypothese;
+  document.getElementById("exp-protocole").value = x.protocole;
+  document.getElementById("exp-conclusion").value = x.conclusion;
+  document.getElementById("exp-nouvelle-observation").value = "";
+  resultatChoisi = x.resultat;
+  afficherChoix("exp-resultat", resultatChoisi);
+  afficherObservations();
+  const supprimer = document.getElementById("bouton-supprimer-experience");
+  supprimer.hidden = !id;
+  supprimer.classList.remove("confirmer");
+  supprimer.textContent = "🗑️ Supprimer";
+  document.getElementById("cahier").hidden = false;
+  document.getElementById("cahier").scrollIntoView({ behavior: "smooth" });
+}
+
+function afficherObservations() {
+  const obs = experienceOuverte.observations;
+  document.getElementById("exp-observations").innerHTML = obs.length
+    ? obs.map(o => `<p class="observation"><strong>${nomDuJour(o.date)} · ${dateCourte(o.date)}</strong>${echapper(o.texte)}</p>`).join("")
+    : `<p class="aide-etape">Pas encore d'observation.</p>`;
+}
+
+function lireCahier() {
+  const x = experienceOuverte;
+  x.question = document.getElementById("exp-question").value.trim();
+  x.hypothese = document.getElementById("exp-hypothese").value.trim();
+  x.protocole = document.getElementById("exp-protocole").value.trim();
+  x.conclusion = document.getElementById("exp-conclusion").value.trim();
+  x.resultat = resultatChoisi;
+}
+
+function ajouterObservation() {
+  const champ = document.getElementById("exp-nouvelle-observation");
+  const texte = champ.value.trim();
+  if (!texte) { montrerMessage("Écris d'abord ce que tu as remarqué ✏️"); return; }
+  experienceOuverte.observations.push({ date: aujourdhuiTexte(), texte });
+  champ.value = "";
+  afficherObservations();
+  enregistrerExperience(true);
+}
+
+function enregistrerExperience(sansMessage) {
+  lireCahier();
+  if (!experienceOuverte.question) { montrerMessage("Écris d'abord ta question ❓"); return; }
+  if (!donnees.experiences.includes(experienceOuverte)) donnees.experiences.push(experienceOuverte);
+  enregistrer();
+  remplirListeExperiences();
+  document.getElementById("bouton-supprimer-experience").hidden = false;
+  if (!sansMessage) montrerMessage("Ton cahier est enregistré ! 🔬");
+  verifierBadges();
+}
+
+// Supprimer demande de toucher deux fois
+function supprimerExperience() {
+  const bouton = document.getElementById("bouton-supprimer-experience");
+  if (!bouton.classList.contains("confirmer")) {
+    bouton.classList.add("confirmer");
+    bouton.textContent = "Touche encore pour supprimer";
+    return;
+  }
+  donnees.experiences = donnees.experiences.filter(x => x.id !== experienceOuverte.id);
+  enregistrer();
+  afficherChercheuse();
+  montrerMessage("Expérience supprimée 🗑️");
+}
+
+
+// --- L2. Le quiz ---
+// Chaque question : la bonne réponse, deux mauvaises, et une explication.
+const QUESTIONS = [
+  { q: "Comment s'appellent les deux toutes premières feuilles ?", bonne: "Les cotylédons", mauvaises: ["Les pétales", "Les vrilles"],
+    explication: "Les cotylédons sortent de la graine en premier. Ils sont ronds et lisses." },
+  { q: "D'où viennent les courges ?", bonne: "D'Amérique", mauvaises: ["D'Afrique", "D'Australie"],
+    explication: "Au Mexique, on cultivait déjà des courges il y a environ 10 000 ans !" },
+  { q: "À quoi servent les vrilles ?", bonne: "À s'accrocher pour grimper", mauvaises: ["À boire l'eau", "À fabriquer des graines"],
+    explication: "Les vrilles s'enroulent toutes seules autour de ce qu'elles touchent." },
+  { q: "Qui transporte le pollen d'une fleur à l'autre ?", bonne: "Les abeilles", mauvaises: ["Les escargots", "Les vers de terre"],
+    explication: "En butinant, les abeilles emportent du pollen d'une fleur mâle vers une fleur femelle." },
+  { q: "Comment s'appelle le voyage du pollen entre les fleurs ?", bonne: "La pollinisation", mauvaises: ["La germination", "La photosynthèse"],
+    explication: "Sans pollinisation, pas de fruit !" },
+  { q: "Comment reconnaît-on une fleur femelle ?", bonne: "Elle a un petit fruit rond sous ses pétales", mauvaises: ["Elle est bleue", "Elle n'a pas de pétales"],
+    explication: "Ce tout petit fruit grossira si la fleur reçoit du pollen." },
+  { q: "Grâce à quoi les feuilles sont-elles vertes ?", bonne: "La chlorophylle", mauvaises: ["Le pollen", "Les sels minéraux"],
+    explication: "La chlorophylle attrape la lumière du soleil." },
+  { q: "Comment s'appelle la « cuisine » des feuilles ?", bonne: "La photosynthèse", mauvaises: ["La pollinisation", "Le phototropisme"],
+    explication: "Avec la lumière, l'eau et l'air, les feuilles fabriquent le sucre qui nourrit la plante." },
+  { q: "Pourquoi faut-il tourner le pot de temps en temps ?", bonne: "Parce qu'elle se penche vers la lumière", mauvaises: ["Pour qu'elle s'endorme", "Pour qu'elle fasse des fleurs bleues"],
+    explication: "C'est le phototropisme : la plante pousse vers la lumière." },
+  { q: "Lequel de ces légumes est un cousin de la courge ?", bonne: "Le concombre", mauvaises: ["La carotte", "La pomme de terre"],
+    explication: "Le concombre, le melon et la courgette sont tous des cucurbitacées." },
+  { q: "Combien de temps vit une courge ?", bonne: "Une seule saison", mauvaises: ["Cent ans", "Une semaine"],
+    explication: "C'est une plante annuelle : elle laisse des graines pour l'année suivante." },
+  { q: "À quoi servent les racines ?", bonne: "À tenir la plante et boire l'eau", mauvaises: ["À faire des fleurs", "À attraper la lumière"],
+    explication: "Les racines boivent l'eau et les sels minéraux de la terre." },
+  { q: "Que sont les stomates ?", bonne: "De minuscules trous sous les feuilles", mauvaises: ["Des petites bêtes", "Des graines"],
+    explication: "Par les stomates, l'air entre et la vapeur d'eau sort." },
+  { q: "Combien pesait la plus grosse citrouille du monde ?", bonne: "Plus de 1 200 kg", mauvaises: ["12 kg", "120 kg"],
+    explication: "Plus lourd qu'une petite voiture !" },
+  { q: "Il y a beaucoup d'eau dans une courge. Combien environ ?", bonne: "90 %", mauvaises: ["10 %", "50 %"],
+    explication: "Une courge, c'est presque que de l'eau !" },
+  { q: "Pourquoi les courges ont-elles des poils ?", bonne: "Pour se protéger des insectes", mauvaises: ["Pour avoir chaud", "Pour s'envoler"],
+    explication: "Ces petits poils piquants gênent les insectes." },
+  { q: "Comment s'appelle la « queue » d'une feuille ?", bonne: "Le pétiole", mauvaises: ["La racine", "Le bourgeon"],
+    explication: "Chez la courge, le pétiole est creux comme une paille !" },
+  { q: "Que faut-il faire avant d'arroser ?", bonne: "Toucher la terre pour voir si elle est sèche", mauvaises: ["Lui chanter une chanson", "Couper une feuille"],
+    explication: "On arrose quand la terre est sèche sur le dessus." },
+  { q: "Où vaut-il mieux verser l'eau ?", bonne: "Au pied de la plante", mauvaises: ["Sur les feuilles", "Sur les fleurs"],
+    explication: "Des feuilles toujours mouillées attrapent plus facilement des maladies." },
+  { q: "Des taches blanches comme de la farine sur les feuilles, c'est…", bonne: "Un champignon, l'oïdium", mauvaises: ["De la neige", "Du sucre"],
+    explication: "Les courges l'attrapent souvent. On enlève les feuilles touchées." },
+  { q: "Que fabriquent les fleurs mâles ?", bonne: "Le pollen", mauvaises: ["Les fruits", "Les racines"],
+    explication: "Les fleurs mâles ne donnent pas de fruit, mais leur pollen est indispensable." },
+  { q: "Qu'est-ce qu'un bourgeon ?", bonne: "Une pointe d'où sort une nouvelle feuille ou fleur", mauvaises: ["Une graine", "Une racine"],
+    explication: "Cherche les bourgeons en haut de ta plante !" },
+  { q: "Pour Halloween, en Irlande, avec quoi faisait-on les lanternes autrefois ?", bonne: "Des navets", mauvaises: ["Des pastèques", "Des tomates"],
+    explication: "Les citrouilles sont arrivées plus tard, en Amérique." },
+  { q: "Quand une graine se réveille et sort de terre, on parle de…", bonne: "Germination", mauvaises: ["Floraison", "Pollinisation"],
+    explication: "La graine boit, gonfle, puis une racine et une tige en sortent." }
+];
+const NOMS_PIEGES = ["Pistache", "Bouton-d'Or", "Patouille", "Croquette", "Gribouille"];
+
+let quiz = null;    // la partie en cours : { questions, numero, score, resultats }
+
+// On mélange une liste (comme un jeu de cartes)
+function melanger(liste) {
+  const copie = liste.slice();
+  for (let i = copie.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copie[i], copie[j]] = [copie[j], copie[i]];
+  }
+  return copie;
+}
+
+// Deux questions sur sa propre plante
+function questionsPerso() {
+  const jours = Math.max(0, ageEnJours());
+  const pieges = melanger(NOMS_PIEGES.filter(n => n !== donnees.plante.nom)).slice(0, 2);
+  // deux âges faux : un plus grand, et un plus petit (ou encore plus grand si elle est très jeune)
+  const plus = jours + 5;
+  const moins = jours >= 7 ? jours - 6 : jours + 11;
+  return [
+    { q: "Comment s'appelle ta plante ?", bonne: donnees.plante.nom, mauvaises: pieges,
+      explication: "Facile, c'est la tienne ! 🌱" },
+    { q: "Quel âge a ta plante aujourd'hui ?", bonne: `${jours} jours`, mauvaises: [`${plus} jours`, `${moins} jours`],
+      explication: `Elle a été plantée le ${dateEnFrancais(donnees.plante.dateDepart)}.` }
+  ];
+}
+
+function afficherQuiz() {
+  const meilleur = donnees.quiz.meilleur;
+  document.getElementById("zone-quiz").innerHTML = `
+    <div class="grand-emoji" aria-hidden="true">🧠</div>
+    <h2>Le grand quiz de la courge</h2>
+    <p class="texte-sauvegarde">10 questions sur tout ce que tu as appris. À toi de jouer !</p>
+    ${donnees.quiz.parties ? `<p class="texte-sauvegarde">🏆 Ton meilleur score : <strong>${meilleur} / 10</strong></p>` : ""}
+    <button class="bouton" data-quiz="commencer">▶️ Commencer</button>`;
+  montrerEcran("ecran-quiz");
+}
+
+function commencerQuiz() {
+  const questions = melanger([...questionsPerso(), ...melanger(QUESTIONS).slice(0, 8)])
+    .map(q => ({ ...q, reponses: melanger([q.bonne, ...q.mauvaises]) }));
+  quiz = { questions, numero: 0, score: 0, resultats: [] };
+  montrerQuestion();
+}
+
+function pointsQuiz() {
+  return `<div class="points-quiz" aria-hidden="true">${quiz.questions.map((_, i) =>
+    `<span class="${quiz.resultats[i] === true ? "juste" : quiz.resultats[i] === false ? "faux" : i === quiz.numero ? "ici" : ""}"></span>`).join("")}</div>`;
+}
+
+function montrerQuestion() {
+  const question = quiz.questions[quiz.numero];
+  document.getElementById("zone-quiz").innerHTML = `
+    <p class="progression-quiz">Question ${quiz.numero + 1} / ${quiz.questions.length}</p>
+    ${pointsQuiz()}
+    <p class="question-quiz">${echapper(question.q)}</p>
+    <div class="reponses-quiz">${question.reponses.map((r, i) =>
+      `<button class="reponse-quiz" data-reponse="${i}">${echapper(r)}</button>`).join("")}</div>
+    <div id="suite-quiz"></div>`;
+}
+
+function repondre(index) {
+  const question = quiz.questions[quiz.numero];
+  const juste = question.reponses[index] === question.bonne;
+  quiz.resultats[quiz.numero] = juste;
+  if (juste) quiz.score++;
+  document.querySelectorAll(".reponse-quiz").forEach((bouton, i) => {
+    bouton.disabled = true;
+    if (question.reponses[i] === question.bonne) bouton.classList.add("juste");
+    else if (i === index) bouton.classList.add("faux");
+    else bouton.classList.add("pas-choisie");
+  });
+  const derniere = quiz.numero === quiz.questions.length - 1;
+  document.getElementById("suite-quiz").innerHTML = `
+    <p class="explication-quiz">${juste ? "🎉 Bravo !" : "😅 Raté !"} ${surligner(question.explication)}</p>
+    <button class="bouton" data-quiz="${derniere ? "fin" : "suivante"}">${derniere ? "Voir mon score 🏆" : "Question suivante →"}</button>`;
+  document.querySelector(".points-quiz").outerHTML = pointsQuiz();
+}
+
+function finirQuiz() {
+  const score = quiz.score;
+  donnees.quiz.parties++;
+  const record = score > donnees.quiz.meilleur;
+  donnees.quiz.meilleur = Math.max(donnees.quiz.meilleur, score);
+  enregistrer();
+  const etoiles = score >= 9 ? 3 : score >= 6 ? 2 : score >= 3 ? 1 : 0;
+  const message = score === 10 ? "Parfait ! Tu es une vraie spécialiste des courges ! 👑"
+    : score >= 8 ? "Excellent ! Tu as tout compris ! 🌟"
+    : score >= 5 ? "Bien joué ! Encore un petit effort ! 💪"
+    : "Ce n'est pas grave : relis ton dictionnaire et réessaie ! 📖";
+  document.getElementById("zone-quiz").innerHTML = `
+    ${pointsQuiz()}
+    <div class="etoiles-quiz">${"⭐".repeat(etoiles)}${"☆".repeat(3 - etoiles)}</div>
+    <p class="score-quiz">${score} / 10</p>
+    <p class="texte-sauvegarde">${message}</p>
+    ${record && donnees.quiz.parties > 1 ? `<p class="texte-sauvegarde">🏆 Nouveau record !</p>` : ""}
+    <button class="bouton" data-quiz="commencer">🔁 Rejouer</button>`;
+  verifierBadges();
+}
+
+
+// --- L3. La sauvegarde ---
+// Tout est mis dans un seul fichier : les données, les photos et les dessins.
+// Les images sont transformées en texte (« data URL ») pour tenir dans le fichier.
+const FORMAT_SAUVEGARDE = "journal-de-plante";
+
+// 1 → "1 photo", 3 → "3 photos"
+const pluriel = (nombre, mot) => `${nombre} ${mot}${nombre > 1 ? "s" : ""}`;
+
+function enTexte(fichier) {
+  return new Promise((reussi, rate) => {
+    const lecteur = new FileReader();
+    lecteur.onload = () => reussi(lecteur.result);
+    lecteur.onerror = rate;
+    lecteur.readAsDataURL(fichier);
+  });
+}
+
+async function afficherSauvegarde() {
+  let nbPhotos = 0, nbDessins = 0;
+  try {
+    nbPhotos = (await lirePhotos()).length;
+    nbDessins = (await dansLeTiroir("dessins", "readonly", t => t.count()));
+  } catch (e) { /* tant pis */ }
+  document.getElementById("resume-sauvegarde").textContent =
+    `Dans l'appli : ${pluriel(donnees.journal.length, "fiche")}, ${pluriel(nbPhotos, "photo")}, ` +
+    `${pluriel(nbDessins, "dessin")}, ${pluriel(donnees.badges.length, "badge")}.`;
+  const derniere = donnees.reglages.derniereSauvegarde;
+  document.getElementById("derniere-sauvegarde").textContent = derniere
+    ? `Dernière sauvegarde : ${derniere === aujourdhuiTexte() ? "aujourd'hui" : "le " + dateEnFrancais(derniere)}.`
+    : "Tu n'as encore jamais fait de sauvegarde.";
+  document.getElementById("confirmer-import").hidden = true;
+  document.getElementById("erreur-import").textContent = "";
+  montrerEcran("ecran-sauvegarde");
+}
+
+async function exporterSauvegarde() {
+  montrerMessage("Je prépare ton fichier… ⏳");
+  try {
+    const photosRangees = await lirePhotos();
+    const dessins = await dansLeTiroir("dessins", "readonly", t => t.getAll());
+    donnees.reglages.derniereSauvegarde = aujourdhuiTexte();
+    enregistrer();
+    const contenu = {
+      format: FORMAT_SAUVEGARDE,
+      version: 1,
+      creeeLe: new Date().toISOString(),
+      donnees,
+      photos: await Promise.all(photosRangees.map(async p => ({
+        date: p.date, ajouteeLe: p.ajouteeLe, grande: await enTexte(p.grande), miniature: await enTexte(p.miniature)
+      }))),
+      dessins: await Promise.all(dessins.map(async d => ({ date: d.date, image: await enTexte(d.image) })))
+    };
+    const nom = `ma-plante-${aujourdhuiTexte()}.json`;
+    const fichier = new File([JSON.stringify(contenu)], nom, { type: "application/json" });
+
+    // Sur l'iPad, on propose le menu « Partager » (Fichiers, AirDrop, e-mail…)
+    if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+      try {
+        await navigator.share({ files: [fichier], title: "Sauvegarde de ma plante" });
+      } catch (e) {
+        if (e.name === "AbortError") return;     // on a juste fermé le menu
+        throw e;
+      }
+    } else {
+      // Sinon, on télécharge le fichier
+      const lien = document.createElement("a");
+      lien.href = URL.createObjectURL(fichier);
+      lien.download = nom;
+      document.body.appendChild(lien);
+      lien.click();
+      setTimeout(() => { URL.revokeObjectURL(lien.href); lien.remove(); }, 1000);
+    }
+    montrerMessage("Sauvegarde prête ! 💾");
+    afficherSauvegarde();
+  } catch (e) {
+    montrerMessage("Oups, la sauvegarde n'a pas marché 😕");
+  }
+}
+
+// Récupérer : on lit le fichier, on montre ce qu'il contient, puis on demande confirmation
+let sauvegardeLue = null;
+
+async function sauvegardeChoisie(evenement) {
+  const fichier = evenement.target.files[0];
+  evenement.target.value = "";
+  const erreur = document.getElementById("erreur-import");
+  erreur.textContent = "";
+  if (!fichier) return;
+  try {
+    const contenu = JSON.parse(await fichier.text());
+    if (contenu.format !== FORMAT_SAUVEGARDE || !contenu.donnees || !contenu.donnees.plante) throw new Error("format");
+    sauvegardeLue = contenu;
+  } catch (e) {
+    erreur.textContent = "Ce fichier n'est pas une sauvegarde de Mon Journal de Plante 😕";
+    return;
+  }
+  const d = sauvegardeLue.donnees;
+  const boite = document.getElementById("confirmer-import");
+  boite.innerHTML = `
+    <p>📦 Sauvegarde de <strong>${echapper(d.plante.nom)}</strong>, faite le ${dateEnFrancais(sauvegardeLue.creeeLe.slice(0, 10))} :
+      ${pluriel(d.journal.length, "fiche")}, ${pluriel(sauvegardeLue.photos.length, "photo")}, ${pluriel(sauvegardeLue.dessins.length, "dessin")}.</p>
+    <p>⚠️ Elle va <strong>remplacer</strong> tout ce qu'il y a dans l'appli maintenant.</p>
+    <div class="rangee-boutons">
+      <button class="bouton" id="bouton-confirmer-import">Oui, je récupère ma sauvegarde</button>
+      <button class="bouton discret" id="bouton-annuler-import">Annuler</button>
+    </div>`;
+  boite.hidden = false;
+}
+
+async function importerSauvegarde() {
+  const contenu = sauvegardeLue;
+  if (!contenu) return;
+  try {
+    // une data URL redevient une image
+    const enImage = texte => fetch(texte).then(reponse => reponse.blob());
+    await dansLeTiroir("photos", "readwrite", t => t.clear());
+    await dansLeTiroir("dessins", "readwrite", t => t.clear());
+    for (const p of contenu.photos) {
+      await rangerPhoto({ date: p.date, ajouteeLe: p.ajouteeLe, grande: await enImage(p.grande), miniature: await enImage(p.miniature) });
+    }
+    for (const d of contenu.dessins) {
+      const image = await enImage(d.image);
+      await dansLeTiroir("dessins", "readwrite", t => t.put({ date: d.date, image }));
+    }
+    donnees = Object.assign(donneesVides(), contenu.donnees);
+    enregistrer();
+    sauvegardeLue = null;
+    afficherAccueil();
+    montrerMessage("Ta sauvegarde est récupérée ! 🎉");
+  } catch (e) {
+    document.getElementById("erreur-import").textContent = "Oups, la récupération n'a pas marché 😕";
+  }
+}
+
+
+/* ============================================================
+   M. LES BOUTONS
    ============================================================ */
 document.getElementById("formulaire-plante").addEventListener("submit", evenement => {
   evenement.preventDefault();
@@ -3634,8 +4294,59 @@ document.querySelectorAll(".tuile").forEach(tuile => {
     else if (tuile.dataset.ecran === "badges") afficherBadges();
     else if (tuile.dataset.ecran === "film") ouvrirFilm();
     else if (tuile.dataset.ecran === "presenter") afficherPresentation();
+    else if (tuile.dataset.ecran === "chercheuse") afficherChercheuse();
+    else if (tuile.dataset.ecran === "quiz") afficherQuiz();
     else montrerMessage(`Ça arrive à la séance ${tuile.dataset.seance} ! 🛠️`);
   });
+});
+
+// Le mode chercheuse
+document.getElementById("bouton-retour-chercheuse").addEventListener("click", afficherAccueil);
+document.getElementById("bouton-nouvelle-experience").addEventListener("click", () => ouvrirExperience(null));
+document.getElementById("liste-experiences").addEventListener("click", evenement => {
+  const ligne = evenement.target.closest("[data-experience]");
+  if (ligne) ouvrirExperience(ligne.dataset.experience);
+});
+document.getElementById("idees-questions").addEventListener("click", evenement => {
+  const idee = evenement.target.closest(".idee");
+  if (idee) document.getElementById("exp-question").value = idee.textContent;
+});
+document.getElementById("exp-resultat").addEventListener("click", evenement => {
+  const pastille = evenement.target.closest(".pastille");
+  if (!pastille) return;
+  resultatChoisi = resultatChoisi === pastille.dataset.valeur ? null : pastille.dataset.valeur;
+  afficherChoix("exp-resultat", resultatChoisi);
+});
+document.getElementById("bouton-ajouter-observation").addEventListener("click", ajouterObservation);
+document.getElementById("bouton-enregistrer-experience").addEventListener("click", () => enregistrerExperience());
+document.getElementById("bouton-fermer-experience").addEventListener("click", () => {
+  document.getElementById("cahier").hidden = true;
+});
+document.getElementById("bouton-supprimer-experience").addEventListener("click", supprimerExperience);
+
+// Le quiz
+document.getElementById("bouton-retour-quiz").addEventListener("click", afficherAccueil);
+document.getElementById("zone-quiz").addEventListener("click", evenement => {
+  const reponse = evenement.target.closest("[data-reponse]");
+  const action = evenement.target.closest("[data-quiz]")?.dataset.quiz;
+  if (reponse && !reponse.disabled) repondre(Number(reponse.dataset.reponse));
+  else if (action === "commencer") commencerQuiz();
+  else if (action === "suivante") { quiz.numero++; montrerQuestion(); }
+  else if (action === "fin") finirQuiz();
+});
+
+// La sauvegarde
+document.getElementById("bouton-sauvegarde").addEventListener("click", afficherSauvegarde);
+document.getElementById("bouton-retour-sauvegarde").addEventListener("click", afficherAccueil);
+document.getElementById("bouton-exporter").addEventListener("click", exporterSauvegarde);
+document.getElementById("bouton-importer").addEventListener("click", () => document.getElementById("entree-sauvegarde").click());
+document.getElementById("entree-sauvegarde").addEventListener("change", sauvegardeChoisie);
+document.getElementById("confirmer-import").addEventListener("click", evenement => {
+  if (evenement.target.id === "bouton-confirmer-import") importerSauvegarde();
+  if (evenement.target.id === "bouton-annuler-import") {
+    sauvegardeLue = null;
+    document.getElementById("confirmer-import").hidden = true;
+  }
 });
 
 // Le film en accéléré
@@ -3862,7 +4573,7 @@ function montrerMessage(texte) {
 
 
 /* ============================================================
-   M. LE DÉMARRAGE
+   N. LE DÉMARRAGE
    ============================================================ */
 
 // Les titres arc-en-ciel : une couleur par lettre

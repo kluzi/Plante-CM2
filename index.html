@@ -926,6 +926,8 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
   85% { transform: translate(-50%, 0) rotate(3deg); }
 }
 .serie { margin-top: 6px; font-size: 1.15rem; font-weight: 800; color: var(--orange); min-height: 1.4em; }
+.rappel-sauvegarde { margin-top: 10px; background: #fff1dc; }
+.rappel-sauvegarde[hidden] { display: none; }
 
 /* La pluie de gouttes quand on arrose */
 .goutte {
@@ -1524,6 +1526,8 @@ h1, h2, h3 { margin: 0; line-height: 1.15; }
         <div class="compteur" id="compteur"></div>
         <div class="depuis" id="depuis"></div>
         <div class="serie" id="serie-accueil"></div>
+        <!-- un petit rappel quand ça fait longtemps qu'on n'a pas sauvegardé -->
+        <button class="bouton discret rappel-sauvegarde" id="rappel-sauvegarde" hidden>💾 Pense à sauvegarder tes photos !</button>
       </article>
 
       <!-- Mes outils -->
@@ -2005,6 +2009,8 @@ const IMAGE_PLANTE = "data:image/webp;base64,UklGRkSDAABXRUJQVlA4WAoAAAAQAAAAywI
    journal (taille, feuilles…), badges, missions…
    (les photos iront dans IndexedDB, plus grand.)
    ============================================================ */
+// ⚠️ NE JAMAIS CHANGER CE NOM : c'est l'étiquette du tiroir où l'iPad range
+// tout le journal. Si on le change, l'appli ne retrouve plus les anciennes données.
 const CLE_MEMOIRE = "journal-de-plante";
 
 function donneesVides() {
@@ -2294,7 +2300,15 @@ function afficherAccueil() {
       document.getElementById("coche-photo").hidden = !liste.some(p => p.date === aujourdhuiTexte());
     })
     .catch(() => {})
-    .then(verifierBadges);
+    .then(() => {
+      // Le rappel de sauvegarde : s'il y a des photos ou un journal,
+      // et pas de sauvegarde depuis plus de 7 jours
+      const derniere = donnees.reglages.derniereSauvegarde;
+      const aProteger = nombrePhotos > 0 || donnees.journal.length > 0;
+      document.getElementById("rappel-sauvegarde").hidden =
+        !aProteger || (derniere && ecartEnJours(derniere, aujourdhuiTexte()) < 7);
+      verifierBadges();
+    });
 }
 
 function afficherBienvenue(modification) {
@@ -2321,6 +2335,9 @@ function afficherBienvenue(modification) {
 // --- G1. La boîte à images ---
 // La boîte a deux tiroirs, rangés par date :
 // "photos" (séance 2) et "dessins" (les dessins du journal, séance 3).
+// ⚠️ NE JAMAIS CHANGER CE NOM, ni supprimer un tiroir : sinon les photos déjà prises
+// seraient perdues. Pour ajouter un tiroir, on l'ajoute à TIROIRS et on augmente
+// le numéro de version dans indexedDB.open (les anciens tiroirs restent intacts).
 const BOITE_PHOTOS = "journal-de-plante-photos";
 const TIROIRS = ["photos", "dessins"];
 let boiteOuverte = null;
@@ -4337,6 +4354,7 @@ document.getElementById("zone-quiz").addEventListener("click", evenement => {
 
 // La sauvegarde
 document.getElementById("bouton-sauvegarde").addEventListener("click", afficherSauvegarde);
+document.getElementById("rappel-sauvegarde").addEventListener("click", afficherSauvegarde);
 document.getElementById("bouton-retour-sauvegarde").addEventListener("click", afficherAccueil);
 document.getElementById("bouton-exporter").addEventListener("click", exporterSauvegarde);
 document.getElementById("bouton-importer").addEventListener("click", () => document.getElementById("entree-sauvegarde").click());
@@ -4583,6 +4601,10 @@ document.querySelectorAll(".arc-en-ciel").forEach(titre => {
 });
 
 afficherFiche();
+
+// On demande à l'iPad de garder nos données pour de bon
+// (sans ça, il peut les effacer s'il manque de place)
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 
 if (donnees.plante.nom) afficherAccueil();
 else afficherBienvenue(false);
